@@ -33,6 +33,7 @@ import StudentExams        from './pages/students/Exams.jsx';
 // teacher pages
 import TeacherCourses from './pages/teacher/TeacherCourses.jsx';
 import TeacherEditSyllabus from './pages/teacher/TeacherEditSyllabus.jsx';
+import TeacherTerms          from './pages/teacher/TeacherTerms.jsx';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -142,6 +143,12 @@ export default function App() {
             ? <TeacherEditSyllabus />
             : <Navigate to="/login" />}
         />
+          <Route
+            path="/teacher/course/:courseId/terms"
+            element={user && user.role === 'professor'
+              ? <TeacherTerms />
+              : <Navigate to="/login" />}
+          />
 
         {/* fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

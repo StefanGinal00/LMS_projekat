@@ -37,7 +37,7 @@ app.use('/api/teacher', teacherRoutes);
 sequelize.authenticate()
   .then(() => {
     console.log('Konekcija sa MySQL uspešna');
-    return sequelize.sync({ alter: true }); // automatski prilagođava tabele ako su modeli menjani
+    return sequelize.sync(); // automatski prilagođava tabele ako su modeli menjani
   })
   .then(() => {
     const PORT = process.env.PORT || 5000;

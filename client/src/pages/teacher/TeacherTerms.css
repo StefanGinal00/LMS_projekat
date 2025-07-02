@@ -1,0 +1,55 @@
+/* client/src/pages/teacher/TeacherTerms.css */
+
+.teacher-terms-page {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.add-term-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.add-term-form label {
+  display: flex;
+  flex-direction: column;
+}
+
+.terms-list {
+  list-style: none;
+  padding: 0;
+}
+
+.term-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.term-actions button {
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.term-actions button:first-child {
+  background: #ffc107;
+  border: none;
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+}
+
+.term-actions button:last-child {
+  background: #dc3545;
+  border: none;
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+}
