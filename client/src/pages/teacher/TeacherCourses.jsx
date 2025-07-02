@@ -61,6 +61,24 @@ export default function TeacherCourses() {
                 >
                   Raspored termina
                 </Link>
+                <Link 
+                  to={`/teacher/course/${course.id}/instruments`} 
+                  className="btn btn-outline"
+                >
+                  Instrumenti evaluacije
+                </Link>
+                <Link 
+                  to={`/teacher/course/${course.id}/students`}
+                  className="btn btn-outline"
+                  >
+                    Spisak studenata
+                </Link>
+                <Link 
+                  to={`/teacher/courses/${course.id}/notifications`}
+                  className="btn btn-outline"
+                >
+                  Notifikacije
+                </Link>
               </div>
             </li>
           ))}

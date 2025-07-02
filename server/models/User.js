@@ -6,6 +6,10 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  surname: {                          // Dodaj ovo
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -14,6 +18,14 @@ const User = sequelize.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  indexNumber: {                      // Dodaj ovo
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  yearOfEnrollment: {                 // Dodaj ovo
+    type: DataTypes.INTEGER,
+    allowNull: true
   },
   role: {
     type: DataTypes.ENUM('student', 'professor', 'admin'),

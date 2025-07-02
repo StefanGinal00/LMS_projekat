@@ -1,0 +1,100 @@
+.teacher-instruments-page {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.add-inst-form {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.add-inst-form input,
+.add-inst-form select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-inst-form button {
+  padding: 0.5rem 1rem;
+  background: #28a745;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.inst-list {
+  list-style: none;
+  padding: 0;
+}
+
+.inst-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.inst-item strong {
+  font-size: 1.1rem;
+}
+
+.inst-actions {
+  float: right;
+}
+
+.inst-actions button {
+  margin-left: 0.5rem;
+  background: #ffc107;
+  border: none;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+.inst-actions button:last-child {
+  background: #dc3545;
+}
+
+.inst-desc {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.back-btn {
+  margin-top: 1.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-inst-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.add-inst-form input,
+.add-inst-form select,
+.add-inst-form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.add-inst-form textarea {
+  flex: 1 1 100%;   /* textarea spans full width */
+  resize: vertical; /* allow vertical resize */
+}

@@ -34,6 +34,10 @@ import StudentExams        from './pages/students/Exams.jsx';
 import TeacherCourses from './pages/teacher/TeacherCourses.jsx';
 import TeacherEditSyllabus from './pages/teacher/TeacherEditSyllabus.jsx';
 import TeacherTerms          from './pages/teacher/TeacherTerms.jsx';
+import TeacherInstruments    from './pages/teacher/TeacherInstruments.jsx';
+import TeacherNotifications from "./pages/teacher/TeacherNotifications";
+import TeacherStudents from './pages/teacher/TeacherStudents.jsx';
+import TeacherStudentSearch from "./pages/teacher/TeacherStudentSearch.jsx";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -147,6 +151,33 @@ export default function App() {
             path="/teacher/course/:courseId/terms"
             element={user && user.role === 'professor'
               ? <TeacherTerms />
+              : <Navigate to="/login" />}
+          />
+
+          <Route
+            path="/teacher/course/:courseId/instruments"
+            element={user && user.role === 'professor'
+              ? <TeacherInstruments />
+              : <Navigate to="/login" />}
+          />
+          <Route
+            path="/teacher/courses/:courseId/notifications"
+            element={user && user.role === 'professor'
+              ? <TeacherNotifications />
+              : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/teacher/course/:courseId/students"
+            element={user && user.role === 'professor'
+              ? <TeacherStudents />
+              : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/teacher/course/:courseId/students"
+            element={user && user.role === 'professor'
+              ? <TeacherStudentSearch />
               : <Navigate to="/login" />}
           />
 

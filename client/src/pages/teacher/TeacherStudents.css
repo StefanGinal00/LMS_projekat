@@ -1,0 +1,56 @@
+.teacher-students {
+  max-width: 920px;
+  margin: 36px auto;
+  padding: 28px 24px;
+  background: #f8fafc;
+  border-radius: 18px;
+  box-shadow: 0 2px 20px #d6deec;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.teacher-students h1 {
+  margin-bottom: 26px;
+  color: #26386c;
+  text-align: center;
+  letter-spacing: 1px;
+  font-size: 1.6em;
+}
+.teacher-students .filter-form {
+  display: flex;
+  gap: 0.7em;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.teacher-students .filter-form input {
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 1px solid #ccd3e4;
+  background: #fff;
+  font-size: 1em;
+  min-width: 110px;
+  margin-bottom: 4px;
+}
+.teacher-students table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.teacher-students th, .teacher-students td {
+  border-bottom: 1px solid #e3e9f5;
+  padding: 9px 8px;
+  text-align: left;
+  font-size: 1em;
+}
+.teacher-students th {
+  background: #eaf1fc;
+  color: #19305b;
+  font-weight: 500;
+}
+.teacher-students tr:last-child td {
+  border-bottom: none;
+}
+.teacher-students tr:hover td {
+  background: #f0f6ff;
+}

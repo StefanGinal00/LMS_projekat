@@ -39,6 +39,7 @@ export default function Navbar({ user, onLogout }) {
           <>
             <Link to="/student/courses">Moji kursevi</Link>
             <Link to="/student/notifications">Obaveštenja</Link>
+            <Link to="/student/exams">Prijava ispita</Link>
           </>
         )}
 

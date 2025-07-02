@@ -17,10 +17,10 @@ const Enrollment = sequelize.define('Enrollment', {
   timestamps: false      
 });
 
-User.hasMany(Enrollment,    { foreignKey: 'studentId' });
-Enrollment.belongsTo(User,  { foreignKey: 'studentId' });
+User.hasMany(Enrollment,    { foreignKey: 'studentId', as: 'Enrollments' });
+Enrollment.belongsTo(User,  { foreignKey: 'studentId', as: 'User' });
 
-Course.hasMany(Enrollment,    { foreignKey: 'programId' }); 
-Enrollment.belongsTo(Course,  { foreignKey: 'programId' });
+Course.hasMany(Enrollment,    { foreignKey: 'programId', as: 'Enrollments' }); 
+Enrollment.belongsTo(Course,  { foreignKey: 'programId', as: 'Course' });
 
 export default Enrollment;

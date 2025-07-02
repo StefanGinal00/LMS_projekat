@@ -13,6 +13,6 @@ const Notification = sequelize.define('Notification', {
 });
 
 Course.hasMany(Notification, { foreignKey: 'courseId' });
-Notification.belongsTo(Course, { foreignKey: 'courseId' });
+Notification.belongsTo(Course, { foreignKey: 'courseId', as: 'Course' });
 
 export default Notification;

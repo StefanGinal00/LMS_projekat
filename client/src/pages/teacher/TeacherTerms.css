@@ -1,55 +1,133 @@
-/* client/src/pages/teacher/TeacherTerms.css */
-
 .teacher-terms-page {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
 }
 
-.error {
-  color: red;
-  margin-bottom: 1rem;
-}
-
-.add-term-form {
+.terms-header {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
-.add-term-form label {
-  display: flex;
-  flex-direction: column;
+.course-name {
+  color: #333;
+}
+
+.back-button {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 14px;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-bottom: 16px;
+}
+
+.loading {
+  font-style: italic;
+  margin-bottom: 16px;
 }
 
 .terms-list {
   list-style: none;
   padding: 0;
+  margin: 0 0 32px;
 }
 
 .term-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
-  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.term-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.term-info strong {
+  font-size: 16px;
+  color: #212529;
+}
+
+.term-date {
+  font-size: 14px;
+  color: #6c757d;
+  margin-top: 4px;
 }
 
 .term-actions button {
-  margin-left: 0.5rem;
+  margin-left: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
   cursor: pointer;
+  border: none;
+  border-radius: 4px;
 }
 
-.term-actions button:first-child {
-  background: #ffc107;
-  border: none;
-  color: #fff;
-  padding: 0.3rem 0.6rem;
+.btn-edit {
+  background-color: #ffc107;
+  color: #212529;
 }
 
-.term-actions button:last-child {
-  background: #dc3545;
-  border: none;
+.btn-delete {
+  background-color: #dc3545;
   color: #fff;
-  padding: 0.3rem 0.6rem;
+}
+
+.add-term-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: flex-end;
+  margin-top: 32px;
+}
+
+.add-term-form h2 {
+  grid-column: 1 / -1;
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #343a40;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.form-row input {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-row-button {
+  text-align: right;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-submit:hover {
+  background-color: #218838;
 }

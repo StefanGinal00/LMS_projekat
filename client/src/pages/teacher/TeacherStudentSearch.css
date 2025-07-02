@@ -1,0 +1,52 @@
+.teacher-students {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #e4e9f1;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.teacher-students h1 {
+  margin-bottom: 24px;
+  color: #26386c;
+  text-align: center;
+}
+.teacher-students table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.teacher-students th, .teacher-students td {
+  border-bottom: 1px solid #dbe1ef;
+  padding: 9px 8px;
+  text-align: left;
+}
+.teacher-students th {
+  background: #f4f7fb;
+  color: #183259;
+}
+.student-search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+.student-search-form input,
+.student-search-form button {
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid #c7d0ee;
+  font-size: 1em;
+}
+.student-search-form button {
+  background: #265dbe;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.16s;
+}
+.student-search-form button:hover {
+  background: #174a97;
+}

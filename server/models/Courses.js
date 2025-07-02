@@ -5,8 +5,13 @@ import Program       from './Program.js';
 const Course = sequelize.define('Course', {
   name:        DataTypes.STRING,
   description: DataTypes.TEXT,
-  syllabus:    DataTypes.TEXT,    // silabus
-  materials:   DataTypes.JSON     // niz URL-ova ili objekata
+  syllabus:    DataTypes.TEXT,
+  materials:   DataTypes.JSON,
+  ects: {
+    type:      DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 6
+  }
 }, {
   tableName: 'courses'
 });
