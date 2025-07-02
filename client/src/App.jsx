@@ -1,53 +1,67 @@
 // src/App.jsx
+
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
 
 import Navbar from './components/navbar/Navbar.jsx';
 
-import Home             from './pages/Home.jsx';
-import University       from './pages/University.jsx';
-import Programs         from './pages/Programs.jsx';
-import ProgramDetail    from './pages/ProgramDetail.jsx';
-import Syllabus         from './pages/Syllabus.jsx';
-import Materials        from './pages/Materials.jsx';
+// public pages
+import Home        from './pages/Home.jsx';
+import University  from './pages/University.jsx';
+import Programs    from './pages/Programs.jsx';
+import ProgramDetail from './pages/ProgramDetail.jsx';
+import Syllabus    from './pages/Syllabus.jsx';
+import Materials   from './pages/Materials.jsx';
 
-import Login            from './pages/Login.jsx';
-import Register         from './pages/Register.jsx';
-import Profile          from './pages/Profile.jsx';
-import EditProfile      from './pages/EditProfile.jsx';
+// auth pages
+import Login       from './pages/Login.jsx';
+import Register    from './pages/Register.jsx';
+import Profile     from './pages/Profile.jsx';
+import EditProfile from './pages/EditProfile.jsx';
 
+// student pages
 import StudentCourses      from './pages/students/Courses.jsx';
 import StudentNotifications from './pages/students/Notifications.jsx';
 import StudentHistory      from './pages/students/History.jsx';
 import StudentExams        from './pages/students/Exams.jsx';
 
+// teacher pages
+import TeacherCourses from './pages/teacher/TeacherCourses.jsx';
+import TeacherEditSyllabus from './pages/teacher/TeacherEditSyllabus.jsx';
+
 export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Učitaj korisnika iz localStorage
+  // učitaj korisnika iz localStorage pri startu
   useEffect(() => {
     const stored = localStorage.getItem('user');
     if (stored && stored !== 'undefined') {
       try {
         setUser(JSON.parse(stored));
-      } catch (e) {
-        console.error('Nevalidan JSON u localStorage:', e);
+      } catch {
         localStorage.removeItem('user');
       }
     }
     setLoading(false);
   }, []);
 
-  const handleLogin = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+  // poziva se pri prijavi i izmeni profila
+  const handleLogin = (u) => {
+    setUser(u);
+    localStorage.setItem('user', JSON.stringify(u));
   };
 
+  // odjavi korisnika
   const handleLogout = () => {
+    setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    setUser(null);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -55,22 +69,17 @@ export default function App() {
   return (
     <BrowserRouter>
       <Navbar user={user} onLogout={handleLogout} />
+
       <Routes>
-        {/* Početna */}
+        {/* javne rute */}
         <Route path="/" element={<Home />} />
-
-        {/* Univerzitet */}
         <Route path="/university" element={<University />} />
-
-        {/* Studijski programi */}
         <Route path="/programs" element={<Programs />} />
         <Route path="/programs/:id" element={<ProgramDetail />} />
-
-        {/* Kurs */}
         <Route path="/course/:courseId/syllabus" element={<Syllabus />} />
         <Route path="/course/:courseId/materials" element={<Materials />} />
 
-        {/* Autentikacija */}
+        {/* autentikacija */}
         <Route
           path="/login"
           element={user ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
@@ -79,9 +88,11 @@ export default function App() {
           path="/register"
           element={user ? <Navigate to="/" /> : <Register />}
         />
+
+        {/* profil */}
         <Route
           path="/profile"
-          element={user ? <Profile /> : <Navigate to="/login" />}
+          element={user ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />}
         />
         <Route
           path="/profile/edit"
@@ -92,26 +103,48 @@ export default function App() {
           }
         />
 
-        {/* Studentske rute */}
+        {/* studentske rute */}
         <Route
           path="/student/courses"
-          element={user ? <StudentCourses /> : <Navigate to="/login" />}
+          element={user && user.role === 'student'
+            ? <StudentCourses />
+            : <Navigate to="/login" />}
         />
         <Route
           path="/student/notifications"
-          element={user ? <StudentNotifications /> : <Navigate to="/login" />}
+          element={user && user.role === 'student'
+            ? <StudentNotifications />
+            : <Navigate to="/login" />}
         />
         <Route
           path="/student/history"
-          element={user ? <StudentHistory /> : <Navigate to="/login" />}
+          element={user && user.role === 'student'
+            ? <StudentHistory />
+            : <Navigate to="/login" />}
         />
         <Route
           path="/student/exams"
-          element={user ? <StudentExams /> : <Navigate to="/login" />}
+          element={user && user.role === 'student'
+            ? <StudentExams />
+            : <Navigate to="/login" />}
         />
 
-        {/* Bilo šta drugo → početna */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* nastavničke rute */}
+        <Route
+          path="/teacher/courses"
+          element={user && user.role === 'professor'
+            ? <TeacherCourses />
+            : <Navigate to="/login" />}
+        />
+        <Route
+          path="/teacher/course/:courseId/edit-syllabus"
+          element={user && user.role === 'professor'
+            ? <TeacherEditSyllabus />
+            : <Navigate to="/login" />}
+        />
+
+        {/* fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

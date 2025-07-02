@@ -7,6 +7,7 @@ import sequelize from './config/database.js';
 import authRoutes from './routes/auth.js';
 import publicRoutes from './routes/public.js';
 import studentRoutes from './routes/student.js';
+import teacherRoutes  from './routes/teacher.js';
 
 // Učitavanje .env varijabli
 dotenv.config();
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api', publicRoutes);
 app.use('/api/student', studentRoutes);
+app.use('/api/teacher', teacherRoutes);
 
 // Povezivanje sa bazom
 sequelize.authenticate()

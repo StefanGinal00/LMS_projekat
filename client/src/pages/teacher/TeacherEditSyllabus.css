@@ -1,0 +1,28 @@
+.edit-syllabus-page {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.edit-syllabus-page h1 {
+  margin-bottom: 1rem;
+}
+
+.edit-syllabus-page textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.edit-syllabus-page .buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-syllabus-page .error {
+  color: red;
+  margin-bottom: 1rem;
+}
