@@ -1,4 +1,3 @@
-// server/routes/teacher.js
 import express from 'express';
 import auth    from '../middleware/auth.js';
 import { Op } from 'sequelize';
@@ -424,7 +423,7 @@ router.get('/students/search', auth, async (req, res) => {
   try {
     const { name, surname, indexNumber, year, avgFrom, avgTo } = req.query;
 
-    // Sklopi WHERE klauzulu po onome što je popunjeno
+    // Sklopamo WHERE klauzulu po onome što je popunjeno
     let where = { role: 'student' };
     if (name)        where.name        = { [Op.like]: `%${name}%` };
     if (surname)     where.surname     = { [Op.like]: `%${surname}%` };
@@ -558,7 +557,7 @@ router.get(
         }))
       ); 
 
-      // 8) Završni rad
+      // 9) Završni rad
       const thesisInst = await Thesis.findOne({ where: { studentId }});
       const thesis = thesisInst
         ? {

@@ -21,7 +21,6 @@ const Term = sequelize.define('Term', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  // NOVO: datum termina
   date: {
     type: DataTypes.DATE,
     allowNull: false
@@ -31,7 +30,6 @@ const Term = sequelize.define('Term', {
   timestamps: false
 });
 
-// asocijacije ostaju iste
 Course.hasMany(Term, { foreignKey: 'courseId', onDelete: 'CASCADE', hooks: true });
 Term.belongsTo(Course,   { foreignKey: 'courseId', onDelete: 'CASCADE' });
 

@@ -34,7 +34,7 @@ router.get('/faculties/:id', async (req, res) => {
 // GET /api/programs - Lista studijskih programa sa pripadnim fakultetom
 router.get('/programs', async (req, res) => {
   try {
-    // U Sequelize za relacije koristi include da ubaciš povezani model
+    // U Sequelize za relacije koristi include da ubacimo povezani model
     const programs = await Program.findAll({ include: Faculty });
     res.json(programs);
   } catch (err) {

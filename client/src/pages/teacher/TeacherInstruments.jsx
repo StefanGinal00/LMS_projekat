@@ -1,5 +1,3 @@
-// client/src/pages/teacher/TeacherInstruments.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './TeacherInstruments.css';
@@ -10,13 +8,13 @@ export default function TeacherInstruments() {
   const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState('');
 
-  // Form state, now including description
+  // Form state, sadrzi description
   const [name, setName]           = useState('');
   const [type, setType]           = useState('project');
   const [description, setDescription] = useState('');  // <-- new
   const [maxScore, setMaxScore]   = useState(100);
 
-  // Fetch instruments on mount / courseId change
+  // vraca instruments za pokretanje / courseId change
   useEffect(() => {
     const token = localStorage.getItem('token');
     async function load() {
@@ -37,7 +35,7 @@ export default function TeacherInstruments() {
     load();
   }, [courseId]);
 
-  // Add new instrument, now sends description
+  // dodavnje novog instrument, sada salje description
   const handleAdd = async (e) => {
     e.preventDefault();
     setError('');
@@ -62,7 +60,7 @@ export default function TeacherInstruments() {
       // Reset form
       setName('');
       setType('project');
-      setDescription('');    // <-- clear textarea
+      setDescription('');// <-- clear textarea
       setMaxScore(100);
 
       // Reload list
@@ -77,7 +75,7 @@ export default function TeacherInstruments() {
     }
   };
 
-  // Edit and Delete remain unchanged…
+  // Edit and Delete ostaju isti
 
   const handleEdit = async (id) => {
     const newName = prompt('Nova oznaka:', '');
@@ -121,7 +119,7 @@ export default function TeacherInstruments() {
       <h1>Instrumenti evaluacije (kurs {courseId})</h1>
       {error && <div className="error">{error}</div>}
 
-      {/* Add new instrument form */}
+      {/* dodavanje nove instrument form */}
       <form className="add-inst-form" onSubmit={handleAdd}>
         <input
           type="text"

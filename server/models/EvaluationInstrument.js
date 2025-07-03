@@ -1,4 +1,3 @@
-// server/models/EvaluationInstrument.js
 import { DataTypes } from 'sequelize';
 import sequelize       from '../config/database.js';
 import Course          from './Courses.js';

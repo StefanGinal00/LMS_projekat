@@ -1,4 +1,3 @@
-// src/pages/teacher/TeacherGrades.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './TeacherGrades.css';
@@ -74,7 +73,7 @@ export default function TeacherGrades() {
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-      // remove from list
+      // brisanje iz liste
       setPending(p => p.filter(x => x.attemptId !== attemptId));
       alert('Ocena i bodovi sačuvani');
     } catch (e) {

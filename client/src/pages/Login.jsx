@@ -32,7 +32,6 @@ const handleSubmit = async (e) => {
     setSuccess('Uspešno ste prijavljeni!');
     if (onLogin) onLogin(data.user);
 
-    // Oslobodi formu da se vidi poruka i disable dugme da ne može ponovo kliknuti
     setTimeout(() => navigate('/'), 2000);
     } catch (err) {
       setError(err.message);

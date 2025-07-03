@@ -145,7 +145,7 @@ router.post('/terms/:termId/register', auth, async (req, res) => {
     if (!term) {
       return res.status(404).json({ message: 'Termin nije pronađen' });
     }
-    // 2) Proveri da je student upisan na kurs tog termina
+    // 2) Provera da je student upisan na kurs tog termina
     const enrollment = await Enrollment.findOne({
       where: {
         studentId: req.user.id,
@@ -156,7 +156,7 @@ router.post('/terms/:termId/register', auth, async (req, res) => {
     if (!enrollment) {
       return res.status(403).json({ message: 'Niste upisani na ovaj kurs' });
     }
-    // 3) Proveri da li je već prijavio taj termin
+    // 3) Provera da li je već prijavljen taj termin
     const already = await Attempt.findOne({
       where: {
         enrollmentId: enrollment.id,
@@ -166,7 +166,7 @@ router.post('/terms/:termId/register', auth, async (req, res) => {
     if (already) {
       return res.status(400).json({ message: 'Već ste prijavili ovaj termin' });
     }
-    // 4) Kreiraj novi pokušaj sa examDate = term.date
+    // 4) Kreiranje novog pokušaja sa examDate = term.date
     const attempt = await Attempt.create({
       enrollmentId: enrollment.id,
       examDate:     term.date

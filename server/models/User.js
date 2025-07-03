@@ -6,7 +6,7 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  surname: {                          // Dodaj ovo
+  surname: { 
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -19,11 +19,11 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  indexNumber: {                      // Dodaj ovo
+  indexNumber: {  
     type: DataTypes.STRING,
     allowNull: true
   },
-  yearOfEnrollment: {                 // Dodaj ovo
+  yearOfEnrollment: { 
     type: DataTypes.INTEGER,
     allowNull: true
   },

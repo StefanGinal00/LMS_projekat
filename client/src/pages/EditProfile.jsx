@@ -24,7 +24,7 @@ export default function EditProfile({ user, onUpdate }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Greška prilikom izmene');
-      // ažuriraj lokalno stanje i localStorage
+      // ažuriramo lokalno stanje i localStorage
       onUpdate(data);
       localStorage.setItem('user', JSON.stringify(data));
       navigate('/profile');

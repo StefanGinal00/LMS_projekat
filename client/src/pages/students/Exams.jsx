@@ -5,7 +5,7 @@ export default function StudentExams() {
   const [terms, setTerms]                   = useState([]);
   const [selectedCourse, setSelectedCourse] = useState('');
   const [nextTerm, setNextTerm]             = useState(null);
-  const [pending, setPending]               = useState([]);  // { courseId, examDate }[]
+  const [pending, setPending]               = useState([]); 
   const [loading, setLoading]               = useState(true);
   const [error, setError]                   = useState('');
 

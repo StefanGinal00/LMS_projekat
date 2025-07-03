@@ -58,7 +58,7 @@ export default function TeacherTerms() {
       setError(data.message);
       return;
     }
-    // osveži listu termina
+    // osvežavamo listu termina
     const refreshed = await fetch(`http://localhost:5000/api/teacher/courses/${courseId}/terms`, {
       headers: { Authorization: `Bearer ${token}` }
     });
