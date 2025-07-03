@@ -1,20 +1,34 @@
 import { DataTypes } from 'sequelize';
 import sequelize       from '../config/database.js';
-import {User}            from './User.js';
+import { User }        from './User.js';
 import Course          from './Courses.js';
 
 const CourseInstructor = sequelize.define('CourseInstructor', {
-  // bez dodatnih polja, služi samo kao „through” tabela
+  courseId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: Course, key: 'id' }
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: User, key: 'id' }
+  }
 }, {
   tableName: 'course_instructors',
   timestamps: false
 });
 
-// Postavljanje M:N relacije (many to many)
-// Jedan kurs može imati više nastavnika. 
-// Jedan nastavnik može držati više kurseva.
-
-Course.belongsToMany(User,   { through: CourseInstructor, foreignKey: 'courseId' });
-User.belongsToMany(Course, { through: CourseInstructor, foreignKey: 'userId' });
+// M:N relacija između Course i User preko CourseInstructor
+Course.belongsToMany(User, {
+  through: CourseInstructor,
+  foreignKey: 'courseId',
+  otherKey: 'userId'
+});
+User.belongsToMany(Course, {
+  through: CourseInstructor,
+  foreignKey: 'userId',
+  otherKey: 'courseId'
+});
 
 export default CourseInstructor;

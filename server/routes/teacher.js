@@ -10,6 +10,8 @@ import Term from '../models/Term.js';
 import EvaluationInstrument from '../models/EvaluationInstrument.js';
 import Enrollment from '../models/Enrollment.js'; 
 import Attempt from '../models/Attempt.js';
+import Misconduct from '../models/Misconduct.js';
+import Thesis     from '../models/Thesis.js';
 
 const router = express.Router();
 
@@ -462,6 +464,295 @@ router.get('/students/search', auth, async (req, res) => {
   }
 });
 
+router.get(
+  '/courses/:courseId/students/:studentId',
+  auth,
+  async (req, res) => {
+    try {
+      const { courseId, studentId } = req.params;
 
+      // 1) Provera da profesor predaje dati kurs
+      const engaged = await CourseInstructor.findOne({
+        where: { courseId, userId: req.user.id }
+      });
+      if (!engaged) {
+        return res.status(403).json({ message: 'Nemate pristup ovom kursu' });
+      }
+
+      // 2) Osnovni podaci o studentu
+       const student = await User.findByPk(studentId);
+      if (!student) {
+        return res.status(404).json({ message: 'Student nije pronađen' });
+      }
+
+      // 3) Svi upisi studenta (Enrollment), uključujući Course i ECTS
+      const enrollments = await Enrollment.findAll({
+        where: { studentId },
+        include: [{ model: Course, as: 'Course', attributes:['name','ects'] }]
+      });
+
+      // 4) Svi pokušaji (Attempt) za te upise
+      const allAttempts = await Attempt.findAll({
+        where: { enrollmentId: enrollments.map(e => e.id) }
+      });
+
+      // 5) Podela na položene i neuspešne
+      const passedExams = [];
+      const failedExams = [];
+      for (let a of allAttempts) {
+        // nađemo upis da dohvatimo naziv kursa i ECTS
+        const enr = enrollments.find(e => e.id === a.enrollmentId);
+        const courseName = enr.Course.name;
+        const date       = a.examDate;
+        const grade      = a.grade;
+        const points     = a.grade != null ? a.grade * 10 : null;
+        const row = { courseName, date, grade, points };
+
+        if (a.grade != null && a.passed) {
+          passedExams.push(row);
+        } else if (a.grade != null && !a.passed) {
+          failedExams.push(row);
+        }
+      }
+
+      // 6) Prijave ispita koje još nisu ocenjivane
+      const pendingRegistrations = allAttempts
+        .filter(a => a.grade == null)
+        .map(a => {
+          const enr = enrollments.find(e => e.id === a.enrollmentId);
+          return {
+            courseName: enr.Course.name,
+            date:       a.examDate
+          };
+        });
+
+      // 7) Prosečna ocena i ukupni ECTS
+      const grades = passedExams.map(e => e.grade);
+      const averageGrade = grades.length
+        ? (grades.reduce((s,x) => s + x, 0) / grades.length).toFixed(2)
+        : null;
+      // svaki Course.ects dodamo samo jednom
+      const uniquePassedCourses = new Set(passedExams.map(e => e.courseName));
+      let totalEcts = 0;
+      enrollments.forEach(e => {
+        if (uniquePassedCourses.has(e.Course.name)) {
+          totalEcts += e.Course.ects;
+        }
+      });
+
+      // 8) Prijave prestupa
+      const misconducts = await Misconduct.findAll({
+        where: { attemptId: allAttempts.map(a => a.id) },
+        include: [{
+          model: Attempt, as: 'Attempt',
+          include: [{
+            model: Enrollment, as: 'Enrollment',
+            include: [{ model: Course, as: 'Course', attributes: ['name'] }]
+          }]
+        }]
+      }).then(rows =>
+        rows.map(m => ({
+          courseName: m.Attempt.Enrollment.Course.name,
+          date:       m.Attempt.examDate,
+          description:m.description
+        }))
+      ); 
+
+      // 8) Završni rad
+      const thesisInst = await Thesis.findOne({ where: { studentId }});
+      const thesis = thesisInst
+        ? {
+            title:        thesisInst.title,
+            grade:        thesisInst.grade,
+            dateDefended: thesisInst.dateDefended
+          }
+        : null; 
+
+      // 10) Vratimo sklopljene podatke
+      res.json({
+        student,
+        averageGrade,
+        totalEcts,
+        enrollments,
+        passedExams,
+        failedExams,
+        misconducts,
+        pendingRegistrations,
+        thesis
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
+
+// GET /api/teacher/courses/:courseId/attempts/pending
+// Vraća sve pokušaje (ispite) za dati kurs koje još nisi ocenio,
+// i gde je datum ispita u prošlosti ali ne stariji od 15 dana.
+router.get(
+  '/courses/:courseId/attempts/pending',
+  auth,
+  async (req, res) => {
+
+    // Parsiramo parametar u broj
+    const courseIdRaw = req.params.courseId;
+    const courseId    = parseInt(courseIdRaw, 10);
+    const profId      = req.user && req.user.id;
+
+    if (isNaN(courseId)) {
+      return res.status(400).json({ message: 'Nevažeći courseId' });
+    }
+    if (!profId) {
+      return res.status(401).json({ message: 'Niste autentifikovani' });
+    }
+
+    try {
+      // 1) Provera angažmana
+         const engaged = await CourseInstructor.findOne({
+          where: { 
+            CourseId: courseId,
+            UserId:   profId
+          }
+        });
+      console.log('  › engaged =', engaged);
+      if (!engaged) {
+        return res.status(403).json({ message: 'Nemate pristup ovom kursu' });
+      }
+
+      // 2) Rok od 15 dana unazad
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setDate(cutoff.getDate() - 15);
+
+      // 3) Dohvati neocenjene pokušaje
+      const pending = await Attempt.findAll({
+        where: {
+          grade:    { [Op.is]: null },
+          examDate: { [Op.lte]: now, [Op.gte]: cutoff }
+        },
+        include: [{
+          model: Enrollment, as: 'Enrollment',
+          where: { programId: courseId },
+          include: [
+            { model: User,   as: 'User',   attributes: ['id','name','surname'] },
+            { model: Course, as: 'Course', attributes: ['id','name'] }
+          ]
+        }],
+        order: [['examDate','ASC']]
+      });
+
+      // 4) Map na prost JSON
+      const result = pending.map(a => ({
+        attemptId:   a.id,
+        studentId:   a.Enrollment.User.id,
+        studentName: `${a.Enrollment.User.name} ${a.Enrollment.User.surname}`,
+        courseName:  a.Enrollment.Course.name,
+        examDate:    a.examDate
+      }));
+
+      return res.json(result);
+
+    } catch (err) {
+      console.error('!!! [pending] ERROR →', err);
+      return res.status(500).json({ message: err.message });
+    }
+  }
+);
+
+
+// PUT /api/teacher/attempts/:attemptId/grade
+// Unos ocene za dati pokušaj (grade + passed + points), samo ako 
+// je u roku od 15 dana od ispita.
+router.put(
+  '/attempts/:attemptId/grade',
+  auth,
+  async (req, res) => {
+    try {
+      const { attemptId } = req.params;
+      const profId = req.user.id;
+      const { grade } = req.body;
+
+      // 1) Učitaj attempt zajedno sa Enrollment->Course
+      const attempt = await Attempt.findByPk(attemptId, {
+        include: [
+          {
+            model: Enrollment, as: 'Enrollment',
+            include: [{ model: Course, as: 'Course' }]
+          }
+        ]
+      });
+      if (!attempt) {
+        return res.status(404).json({ message: 'Pokušaj nije pronađen' });
+      }
+
+      // 2) Provera da profesor predaje taj kurs
+      const courseId = attempt.Enrollment.courseId;
+      const engaged  = await CourseInstructor.findOne({
+        where: {
+          CourseId: courseId,
+          UserId:   profId
+        }
+      });
+      if (!engaged) {
+        return res.status(403).json({ message: 'Nemate pristup ovom kursu' });
+      }
+
+      // 3) Provera vremenskog roka: examDate <= now <= examDate+15 dana
+      const now   = new Date();
+      const examD = new Date(attempt.examDate);
+      const last  = new Date(examD);
+      last.setDate(last.getDate() + 15);
+
+      if (now < examD || now > last) {
+        return res
+          .status(400)
+          .json({ message: 'Rok za unos ocene istekao' });
+      }
+
+      // 4) Ažuriraj
+      attempt.grade  = grade;
+      attempt.points = points;
+      attempt.passed = grade >= 6;
+      await attempt.save();
+
+      res.json({ message: 'Ocena uspešno sačuvana' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
+
+// GET /api/teacher/courses/:courseId
+router.get(
+  '/courses/:courseId',
+  auth,
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      // Provera angažmana
+      const engaged = await CourseInstructor.findOne({
+        where: {
+          CourseId: courseId,
+          UserId:   req.user.id
+        }
+      });
+      if (!engaged) {
+        return res.status(403).json({ message: 'Nemate pristup ovom kursu' });
+      }
+      const course = await Course.findByPk(courseId, {
+        attributes: ['id','name']
+      });
+      if (!course) {
+        return res.status(404).json({ message: 'Predmet nije pronađen' });
+      }
+      res.json(course);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
 
 export default router;

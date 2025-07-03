@@ -101,3 +101,44 @@
 .add-notification-form button:hover {
   background: #277963;
 }
+
+/* Dodatni stilovi za edit formu */
+.notification-item form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.notification-item form input,
+.notification-item form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.notification-item form .notification-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.notification-item form .notification-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.notification-item form .notification-buttons button:first-child {
+  background: #4d6ce1;
+  color: #fff;
+}
+
+.notification-item form .notification-buttons button:last-child {
+  background: #e95252;
+  color: #fff;
+}

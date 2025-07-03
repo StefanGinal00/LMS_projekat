@@ -1,0 +1,64 @@
+/* TeacherGrades.css */
+
+.teacher-grades-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.teacher-grades-container h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.teacher-grades-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.teacher-grades-table th,
+.teacher-grades-table td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.teacher-grades-table th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+.teacher-grades-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.teacher-grades-input {
+  width: 60px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.teacher-grades-button {
+  padding: 6px 12px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.teacher-grades-button:hover {
+  background: #218838;
+}
+
+.teacher-grades-error {
+  color: #c00;
+  text-align: center;
+  margin-top: 16px;
+}

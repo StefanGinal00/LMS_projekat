@@ -1,6 +1,6 @@
-// src/pages/teacher/TeacherStudents.jsx
+
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "./TeacherStudents.css";
 
 export default function TeacherStudents() {
@@ -78,6 +78,7 @@ export default function TeacherStudents() {
             <th>Broj pokušaja</th>
             <th>Poslednja ocena</th>
             <th>Prosek</th>
+            <th>Akcija</th>
           </tr>
         </thead>
         <tbody>
@@ -93,6 +94,9 @@ export default function TeacherStudents() {
               <td>{st.numAttempts ?? 0}</td>
               <td>{typeof st.lastGrade !== "undefined" && st.lastGrade !== null ? st.lastGrade : "-"}</td>
               <td>{typeof st.average !== "undefined" && st.average !== null ? st.average.toFixed(2) : "-"}</td>
+              <td>
+                <Link to={`/teacher/courses/${courseId}/students/${st.id}`}>Detalji</Link>
+              </td>
             </tr>
           ))}
         </tbody>

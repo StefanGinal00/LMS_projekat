@@ -38,6 +38,8 @@ import TeacherInstruments    from './pages/teacher/TeacherInstruments.jsx';
 import TeacherNotifications from "./pages/teacher/TeacherNotifications";
 import TeacherStudents from './pages/teacher/TeacherStudents.jsx';
 import TeacherStudentSearch from "./pages/teacher/TeacherStudentSearch.jsx";
+import TeacherStudentDetails from './pages/teacher/TeacherStudentDetails';
+import TeacherGrades from './pages/teacher/TeacherGrades';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -178,6 +180,20 @@ export default function App() {
             path="/teacher/course/:courseId/students"
             element={user && user.role === 'professor'
               ? <TeacherStudentSearch />
+              : <Navigate to="/login" />}
+          />
+          <Route
+            path="/teacher/courses/:courseId/students/:studentId"
+            element={
+              user && user.role === 'professor'
+                ? <TeacherStudentDetails />
+                : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/teacher/courses/:courseId/grades"
+            element={user?.role === 'professor'
+              ? <TeacherGrades />
               : <Navigate to="/login" />}
           />
 

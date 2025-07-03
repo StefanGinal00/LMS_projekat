@@ -79,6 +79,12 @@ export default function TeacherCourses() {
                 >
                   Notifikacije
                 </Link>
+                <Link 
+                  to={`/teacher/courses/${course.id}/grades`}
+                  className="btn btn-outline"
+                  >
+                    Unos ocena
+                </Link>
               </div>
             </li>
           ))}

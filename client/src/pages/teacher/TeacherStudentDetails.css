@@ -1,0 +1,70 @@
+.student-details {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.sd-back {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.student-details h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.sd-basic, .sd-stats {
+  background: #f5f7fa;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+
+.sd-basic p, .sd-stats p {
+  margin: 4px 0;
+}
+
+.sd-section {
+  margin-bottom: 32px;
+}
+
+.sd-section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 4px;
+}
+
+.sd-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sd-table th,
+.sd-table td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+}
+
+.sd-table th {
+  background: #f0f0f0;
+}
+
+.sd-list {
+  padding-left: 20px;
+}
+
+.sd-list li {
+  margin-bottom: 6px;
+}
+
+.sd-loading, .sd-error {
+  text-align: center;
+  color: #c00;
+}
